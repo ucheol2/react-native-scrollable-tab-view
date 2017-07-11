@@ -268,11 +268,21 @@ const ScrollableTabView = React.createClass({
       };
     }
 
-    return <View style={[styles.container, this.props.style, ]} onLayout={this._handleLayout}>
-      {this.props.tabBarPosition === 'top' && this.renderTabBar(tabBarProps)}
-      {this.renderScrollableContent()}
-      {(this.props.tabBarPosition === 'bottom' || overlayTabs) && this.renderTabBar(tabBarProps)}
-    </View>;
+    let tabIndex = this.props.tabBarPosition === 'top' ? 0 : 2;
+    if (this.props.header) tabIndex++;
+    return (
+      <ScrollView
+        style={[styles.container, this.props.style, ]}
+        onLayout={this._handleLayout}
+        showsVerticalScrollIndicator={false}
+        stickyHeaderIndices={[tabIndex]}
+      >
+        {this.props.header}
+        {this.props.tabBarPosition === 'top' && this.renderTabBar(tabBarProps)}
+        {this.renderScrollableContent()}
+        {(this.props.tabBarPosition === 'bottom' || overlayTabs) && this.renderTabBar(tabBarProps)}
+      </ScrollView>;
+    )
   },
 });
 
